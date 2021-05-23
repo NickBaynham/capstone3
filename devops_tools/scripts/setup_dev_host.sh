@@ -28,11 +28,24 @@ sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.rel
 sudo apt install terraform
 terraform --version
 
+# Install Ansible
+sudo apt update
+sudo apt install -y ansible
+
+# Install Ansible AWS EC2 Inventory Source
+ansible-galaxy collection install amazon.aws
+
+# Install Ansible Role for Jenkins
+ansible-galaxy install emmetog.jenkins
+
 # Clone the 'capstone3' repository
 git --version
 config --global user.email "$EMAIL"
 config --global user.name "$USER_NAME"
 git clone https://github.com/NickBaynham/capstone3.git
 tree capstone3
+cp /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.bak
+cp ~/capstone3/devops_tools/config/ansible.cfg /etc/ansible/ansible.cfg
+
 echo To configure AWS run 'aws configure'
 
