@@ -1,0 +1,2 @@
+infrastructure/dev/terraform.tfstate
+infrastructure/staging/terraform.tfstate

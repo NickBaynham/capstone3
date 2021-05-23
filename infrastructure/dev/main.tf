@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = ">= 3.27"
     }
   }
@@ -10,12 +10,12 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region = "us-east-2"
+  region  = "us-east-2"
 }
 
 resource "aws_instance" "jenkins_server" {
-  ami = "ami-830c94e3"
-  instance_type = "t2.micro"
+  ami           = "ami-0b9064170e32bde34"
+  instance_type = "t2.medium"
 
   tags = {
     Name = "JenkinsServer"
