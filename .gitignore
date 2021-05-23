@@ -1,2 +1,6 @@
 infrastructure/dev/terraform.tfstate
 infrastructure/staging/terraform.tfstate
+infrastructure/dev/terraform.tfstate.backup
+infrastructure/staging/terraform.tfstate.backup
+infrastructure/dev/.terraform.lock.hcl
+infrastructure/staging/.terraform.lock.hcl

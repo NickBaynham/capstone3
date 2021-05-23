@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
-      version = "-> 3.27"
+      source  = "hashicorp/aws"
+      version = ">= 3.27"
     }
   }
   required_version = ">= 0.14.9"
@@ -10,14 +10,14 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region = "us-east-2"
+  region  = "us-east-2"
 }
 
-resource "aws_instance" "k8s_control" {
-  ami = "ami-830c94e3"
-  instance_type = "t2.micro"
+resource "aws_instance" "k8s-control" {
+  ami           = "ami-0b9064170e32bde34"
+  instance_type = "t2.medium"
 
   tags = {
-    Name = "k8s_control"
+    Name = "k8s-control"
   }
 }
