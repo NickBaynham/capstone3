@@ -1,4 +1,4 @@
-- hosts: jenkins
+- hosts: all
 
   vars:
           jenkins_version: "2.73.1"
@@ -7,8 +7,8 @@
           jenkins_install_via: "apt"
           jenkins_jobs:
           - "build-test-deploy"
-          jenkins-include-secrets: true
-          jenkins-plugins:
+          jenkins_include_secrets: true
+          jenkins_plugins:
                   - git
                   - blueocean
   roles:

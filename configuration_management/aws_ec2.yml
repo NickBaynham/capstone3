@@ -5,8 +5,8 @@ regions:
 - us-east-2
 filters:
   tag:Name:
-  - dev
+  - JenkinsServer
   instance-state-name: running
 keyed_groups:
-- prefix: dev
-  key: tags['dev']  
+- prefix: JenkinsServer
+  key: tags['JenkinsServer']  

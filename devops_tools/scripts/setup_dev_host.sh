@@ -54,5 +54,8 @@ tree capstone3
 cp /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.bak
 cp ~/capstone3/devops_tools/config/ansible.cfg /etc/ansible/ansible.cfg
 
+# Generate an SSH Key Pair
+ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ''
+
 echo To configure AWS run 'aws configure'
 
