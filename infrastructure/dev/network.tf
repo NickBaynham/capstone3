@@ -5,5 +5,10 @@ resource "aws_vpc" "dev" {
     Name = "dev_network"
   }
   enable_dns_hostnames = true
-  enable_dns_support = true
+  enable_dns_support   = true
+}
+
+resource "aws_eip" "id-dev" {
+  instance = aws_instance.jenkins_server.id
+  vpc      = true
 }

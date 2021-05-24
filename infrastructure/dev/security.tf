@@ -1,5 +1,5 @@
 resource "aws_security_group" "ingress-all-dev" {
-  name = "alow-all"
+  name   = "alow-all"
   vpc_id = aws_vpc.dev.id
 
   ingress {
@@ -8,14 +8,14 @@ resource "aws_security_group" "ingress-all-dev" {
     ]
 
     from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    to_port   = 22
+    protocol  = "tcp"
   }
 
   egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
