@@ -8,7 +8,7 @@ public class Time {
         for (;;) {
             Thread.sleep(10000);
             String timestamp = TimeStamp.getTime();
-            System.out.println("The time is: " + timestamp);
+            System.out.println("I am alive on " + timestamp);
         }
     }
 }

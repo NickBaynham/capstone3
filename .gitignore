@@ -1,3 +1,4 @@
+application/target
 infrastructure/dev/terraform.tfstate
 infrastructure/staging/terraform.tfstate
 infrastructure/dev/terraform.tfstate.backup
