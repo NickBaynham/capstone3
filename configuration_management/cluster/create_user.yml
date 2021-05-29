@@ -29,4 +29,4 @@
     shell: id k8s
     register: new_user_created
   - debug:
-      msg: "{{ new_user_crated.stdout_lines[0] }}"
+      msg: "{{ new_user_created.stdout_lines[0] }}"
