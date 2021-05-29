@@ -3,11 +3,11 @@ variable "CICD_USER" {
 }
 
 variable "AWS_REGION" {
-  default = "us-east-1"
+  default = "us-east-2"
 }
 
 variable "AVAILABILITY_ZONE" {
-  default = "us-east-1a"
+  default = "us-east-2a"
 }
 
 variable "PUBLIC_KEY_PATH" {

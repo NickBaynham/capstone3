@@ -1,4 +1,4 @@
-resource aws_vpc "cicd-vpc" {
+resource "aws_vpc" "cicd-vpc" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
@@ -8,12 +8,12 @@ resource aws_vpc "cicd-vpc" {
   enable_dns_support   = true
 }
 
-resource aws_eip "id-cicd" {
-  instance = aws_instance.jenkins_server.id
+resource "aws_eip" "id-cicd" {
+  instance = aws_instance.cicd-server.id
   vpc      = true
 }
 
-resource aws_internet_gateway "cicd-internet-gateway" {
+resource "aws_internet_gateway" "cicd-internet-gateway" {
   vpc_id = aws_vpc.cicd-vpc.id
 
   tags = {
@@ -21,7 +21,7 @@ resource aws_internet_gateway "cicd-internet-gateway" {
   }
 }
 
-resource aws_route_table "cicd-public-custom-route-table" {
+resource "aws_route_table" "cicd-public-custom-route-table" {
   vpc_id = aws_vpc.cicd-vpc.id
 
   route {
@@ -34,12 +34,12 @@ resource aws_route_table "cicd-public-custom-route-table" {
   }
 }
 
-resource aws_route_table_association "staging-custom-route-table-public-subnet" {
+resource "aws_route_table_association" "cicd-custom-route-table-public-subnet" {
   subnet_id      = aws_subnet.cicd-subnet-public.id
   route_table_id = aws_route_table.cicd-public-custom-route-table.id
 }
 
-resource aws_security_group "ssh-allowed" {
+resource "aws_security_group" "ssh-allowed" {
   vpc_id = aws_vpc.cicd-vpc.id
 
   egress {
