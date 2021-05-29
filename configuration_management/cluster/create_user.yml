@@ -1,0 +1,32 @@
+---
+- hosts: users
+  become: yes
+
+  tasks: 
+  - name: create the k8s user.
+    user: 
+      name: k8s
+      createhome: yes
+      shell: /bin/bash
+      append: yes
+      state: present
+  - name: create the dedicated sudo entry
+    file:
+      path: "/etc/sudoers.d/k8s"
+      state: touch
+      mode: '0600'
+  - name: configure sudo without password
+    lineinfile:
+      dest: "/etc/sudoers.d/k8s"
+      line: 'k8s ALL=(ALL) NOPASSWD:ALL'
+      validate: 'visudo -cf %s'
+  - name: set authorized key
+    authorized_key:
+      user: k8s
+      state: present
+      key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"
+  - name: log the created user
+    shell: id k8s
+    register: new_user_created
+  - debug:
+      msg: "{{ new_user_crated.stdout_lines[0] }}"
