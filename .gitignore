@@ -1,8 +1,10 @@
 application/target/
 infrastructure/*/*.tfvars
-infrastructure/dev/terraform.tfstate
+infrastructure/cicd/terraform.tfstate
 infrastructure/staging/terraform.tfstate
-infrastructure/dev/terraform.tfstate.backup
+infrastructure/cicd/terraform.tfstate.backup
 infrastructure/staging/terraform.tfstate.backup
-infrastructure/dev/.terraform.lock.hcl
+infrastructure/cicd/.terraform.lock.hcl
 infrastructure/staging/.terraform.lock.hcl
+infrastructure/cicd/.terraform/
+infrastructure/staging/.terraform/
