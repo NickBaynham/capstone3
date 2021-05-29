@@ -1,8 +1,8 @@
-resource "aws_vpc" "staging-vpc" {
+resource "aws_vpc" "cluster-vpc" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
-    Name = "staging_vpc"
+    Name = "cluster-vpc"
   }
 
   enable_dns_hostnames = true
