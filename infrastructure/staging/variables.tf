@@ -1,3 +1,11 @@
+variable "AWS_REGION" {
+  default = "us-east-1"
+}
+
+variable "availability_zone" {
+  default = "us-east-1a"
+}
+
 variable "ssh_public_key" {}
 
 variable "cluster_controller_name" {
@@ -9,11 +17,11 @@ variable "cluster_controller_image" {
 }
 
 variable "cluster_controller_shape" {
-  default = "t2.medium
+  default = "t2.medium"
 }
 
 
-variable"cluster_node_image" {
+variable "cluster_node_image" {
   default = "ami-0b9064170e32bde34"
 }
 
