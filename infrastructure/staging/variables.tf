@@ -6,7 +6,13 @@ variable "availability_zone" {
   default = "us-east-1a"
 }
 
-variable "ssh_public_key" {}
+variable "PUBLIC_KEY_PATH" {
+  default = "~/.ssh/id_rsa.pub"
+}
+
+variable "PRIVATE_KEY_PATH" {
+  default = "~/.ssh/id_rsa"
+}
 
 variable "cluster_controller_name" {
   default = "cluster_controller"
