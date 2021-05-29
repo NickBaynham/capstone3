@@ -1,0 +1,41 @@
+---
+- name: Install Jenkins
+  hosts: cicd-server
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Install prerequisites
+      apt:
+        name:
+          - wget
+          - java-1.8.0-openjdk
+    - name: Download the official Jenkins key
+      apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key 
+      state: present
+    - name: Download jenkins.repo
+      apt_repository: 
+        repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+        state: present
+ 
+    - name: Install Jenkins
+      apt: 
+        name: 
+        - jenkins 
+        update_cache: yes 
+        
+    - name: Start & Enable Jenkins
+      service: 
+        name: jenkins
+        state: started
+ 
+    - name: Sleep for 30 seconds and continue with play
+      wait_for: timeout=30
+ 
+    - name: Get init password Jenkins
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      changed_when: false
+      register: result
+ 
+    - name: Print init password Jenkins
+      debug:
+        var: result.stdout
