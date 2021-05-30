@@ -17,7 +17,12 @@
   - name: Initialize k8s cluster
     command: sudo kubeadm init --pod-network-cidr=10.244.0.0/16
   - name: Create a directory for the cluster
-    command: mkdir -p $HOME/.kube 
+    file:
+      path: /home/ansible/.kube 
+      state: directory
+      group: ansible
+      owner: ansible
+      mode: 0700
   - name: Copy the admin config file  
     command: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
   - name: Change ownership of config  

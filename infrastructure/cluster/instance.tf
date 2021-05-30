@@ -28,7 +28,7 @@ resource "aws_instance" "worker-node-1" {
   }
 
   tags = {
-    Name = "worker-node-1"
+    Name = "worker-node"
   }
 }
 
@@ -45,7 +45,7 @@ resource "aws_instance" "worker-node-2" {
   }
 
   tags = {
-    Name = "worker-node-2"
+    Name = "worker-node"
   }
 }
 
@@ -62,6 +62,6 @@ resource "aws_instance" "worker-node-3" {
   }
 
   tags = {
-    Name = "worker-node-3"
+    Name = "worker-node"
   }
 }

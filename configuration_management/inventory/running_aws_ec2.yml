@@ -4,9 +4,4 @@ aws_profile: default
 regions:
 - us-east-2
 filters:
-  tag:Name:
-  - JenkinsServer
   instance-state-name: running
-keyed_groups:
-- prefix: JenkinsServer
-  key: tags['JenkinsServer']  

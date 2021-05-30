@@ -1,0 +1,12 @@
+---
+plugin: aws_ec2
+aws_profile: default
+regions:
+- us-east-2
+filters:
+  tag:Name:
+  - master-node
+  instance-state-name: running
+keyed_groups:
+- prefix: MasterNodes
+  key: tags['master-node']  
