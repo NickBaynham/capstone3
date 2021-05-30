@@ -9,6 +9,10 @@ resource "aws_instance" "master-node" {
     user        = var.EC2_USER
     private_key = file(var.PRIVATE_KEY_PATH)
   }
+
+  tags = {
+    Name = "master-node"
+  }
 }
 
 resource "aws_instance" "worker-node-1" {
@@ -21,6 +25,10 @@ resource "aws_instance" "worker-node-1" {
   connection {
     user        = var.EC2_USER
     private_key = file(var.PRIVATE_KEY_PATH)
+  }
+
+  tags = {
+    Name = "worker-node-1"
   }
 }
 
@@ -35,6 +43,10 @@ resource "aws_instance" "worker-node-2" {
     user        = var.EC2_USER
     private_key = file(var.PRIVATE_KEY_PATH)
   }
+
+  tags = {
+    Name = "worker-node-2"
+  }
 }
 
 resource "aws_instance" "worker-node-3" {
@@ -47,5 +59,9 @@ resource "aws_instance" "worker-node-3" {
   connection {
     user        = var.EC2_USER
     private_key = file(var.PRIVATE_KEY_PATH)
+  }
+
+  tags = {
+    Name = "worker-node-3"
   }
 }
