@@ -24,9 +24,12 @@
       owner: ansible
       mode: 0700
   - name: Copy the admin config file  
-    command: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
-  - name: Change ownership of config  
-    command: sudo chown $(id -u):$(id -g) $HOME/.kube/config
+    copy:
+      src: /etc/kubernetes/admin.conf
+      dest: /home/ansible/.kube/config
+      owner: ansible
+      group: ansible
+      mode: 0600      
   - name: Deploy Pod Network to the Cluster
     command: sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
   - name: Verify that everything is running
