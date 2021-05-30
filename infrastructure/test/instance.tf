@@ -10,4 +10,8 @@ resource "aws_instance" "master-node" {
     private_key = file(var.PRIVATE_KEY_PATH)
     host        = aws_instance.master-node.public_ip
   }
+
+  tags = {
+    Name = "master-node"
+  }
 }
