@@ -1,0 +1,12 @@
+---
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+  - name: Initialize k8s cluster
+    command: kubeadm init 
