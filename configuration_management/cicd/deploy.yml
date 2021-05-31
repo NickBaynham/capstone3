@@ -1,0 +1,20 @@
+---
+- name: Deploy the application to the cluster
+  hosts: all
+  gather_facts: false
+  remote_user: ansible
+  tasks:
+    - name: Deploy backend application
+      shell: kubectl apply -f https://raw.githubusercontent.com/NickBaynham/capstone3/main/deployment/backend-deployment.yml
+
+    - name: Deploy backend service
+      shell: kubectl apply -f https://raw.githubusercontent.com/NickBaynham/capstone3/main/deployment/backend-service.yml
+
+    - name: Deploy frontend application
+      shell: kubectl apply -f https://raw.githubusercontent.com/NickBaynham/capstone3/main/deployment/frontend-deployment.yml
+
+    - name: Deploy frontend service
+      shell: kubectl apply -f https://raw.githubusercontent.com/NickBaynham/capstone3/main/deployment/frontend-service.yml
+
+    - name: Deploy microservices application
+      shell: kubectl apply -f https://raw.githubusercontent.com/NickBaynham/capstone3/main/deployment/app-deployment.yml  
