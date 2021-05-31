@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: time-app
+  labels:
+    app.kubernetes.io/name: time-app
+    app.kubernetes.io/component: time-app
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: time-app
+      app.kubernetes.io/component: time-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: time-app
+        app.kubernetes.io/component: time-app
+    spec:
+      containers:
+      - name: time-app
+        image: public.ecr.aws/r2t71rm6/capstone3:latest
+        args:
+        - --bind_ip
+        - 0.0.0.0
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 2701                

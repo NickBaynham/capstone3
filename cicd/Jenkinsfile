@@ -1,0 +1,33 @@
+pipeline {
+  agent any
+
+  node {
+    checkout scm
+  }
+  stages {
+    stage('Build') {
+      echo 'Building the Microservice...'
+      sh 'cd application'
+      sh 'mvn clean install'
+      archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+    }
+
+   stage('Test') {
+     echo 'Executing Unit Tests...'
+     sh 'mvn verify'
+     junit '**/target/*.xml'
+   }
+
+   stage('Deploy') {
+     echo 'Deploying the Microservice to the Kubernetes Cluster...'
+     when {
+       expression {
+         currentBuild.result == null || currentBuild.result == 'SUCCESS'
+       }
+     }
+     steps {
+       sh 'docker build . -t test-app'
+     }
+   }
+  }
+}
