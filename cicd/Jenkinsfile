@@ -1,33 +1,43 @@
 pipeline {
-  agent any
+    agent any
 
-  node {
-    checkout scm
-  }
-  stages {
-    stage('Build') {
-      echo 'Building the Microservice...'
-      sh 'cd application'
-      sh 'mvn clean install'
-      archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+    stages {
+        stage('Checkout Repository - main branch') {
+            steps {
+                echo 'Checking out code...'
+                git branch: 'main', url: 'https://github.com/NickBaynham/capstone3.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building the microservices...'
+                sh 'cd application && mvn clean install'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Executing the Unit Tests...'
+                sh 'cd application && mvn verify'
+                junit 'application/target/surefire-reports/*.xml'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the microservices to the cluster...'
+                when {
+                    expression {
+                        currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                    }
+                }
+                steps {
+                    sh 'cd application && docker build . -t public.ecr.aws/r2t71rm6/capstone3'
+                    sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws'
+                    sh 'docker push public.ecr.aws/r2t7l4m6/capstone3'
+                    sh 'cd scripts && ansible@$(./get_node_ip.sh master-node) < ./deployment.sh'
+                }
+            }
+        }
     }
-
-   stage('Test') {
-     echo 'Executing Unit Tests...'
-     sh 'mvn verify'
-     junit '**/target/*.xml'
-   }
-
-   stage('Deploy') {
-     echo 'Deploying the Microservice to the Kubernetes Cluster...'
-     when {
-       expression {
-         currentBuild.result == null || currentBuild.result == 'SUCCESS'
-       }
-     }
-     steps {
-       sh 'docker build . -t test-app'
-     }
-   }
-  }
 }
+
