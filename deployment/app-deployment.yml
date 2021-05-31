@@ -20,13 +20,7 @@ spec:
       containers:
       - name: microservice
         image: public.ecr.aws/r2t7l4m6/capstone3
-        args:
-        - --bind_ip
-        - 0.0.0.0
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
-        ports:
-        - containerPort: 2500                
-
