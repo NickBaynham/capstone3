@@ -48,6 +48,8 @@
     service:
       name: docker
       enabled: yes
+  - name: Add the ansible user to the docker group
+    command: "usermod -aG docker ansible"
   - name: Add Google official GPG key
     apt_key:
       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
