@@ -23,19 +23,17 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
             steps {
                 echo 'Deploying the microservices to the cluster...'
-                when {
-                    expression {
-                        currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                    }
-                }
-                steps {
-                    sh 'cd application && docker build . -t public.ecr.aws/r2t71rm6/capstone3'
-                    sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws'
-                    sh 'docker push public.ecr.aws/r2t7l4m6/capstone3'
-                    sh 'cd scripts && ansible@$(./get_node_ip.sh master-node) < ./deployment.sh'
-                }
+                 sh 'cd application && docker build . -t public.ecr.aws/r2t71rm6/capstone3'
+                 sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws'
+                 sh 'docker push public.ecr.aws/r2t7l4m6/capstone3'
+                 sh 'cd scripts && ansible@$(./get_node_ip.sh master-node) < ./deployment.sh'
             }
         }
     }
