@@ -10,27 +10,38 @@
   tasks:
   - name: Update apt-get repo and cache
     apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
   - name: Turn off Swap
-    command: sudo swapoff -a
+    command: swapoff -a
+
   - name: Set the Hostname to master-node
-    command: sudo hostnamectl set-hostname master-node  
+    command: hostnamectl set-hostname master-node  
+
   - name: Initialize k8s cluster
-    command: sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+    shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster_initialized.txt
+    args:
+      chdir: $HOME
+      creates: cluster_initialized.txt 
+
   - name: Create a directory for the cluster
+    become: yes
+    become_user: ansible
     file:
       path: /home/ansible/.kube 
       state: directory
-      group: ansible
-      owner: ansible
-      mode: 0700
-  - name: Copy the admin config file  
+      mode: 0755
+
+  - name: Copy the admin.config file to ansible kube config  
     copy:
       src: /etc/kubernetes/admin.conf
       dest: /home/ansible/.kube/config
+      remote_src: yes
       owner: ansible
-      group: ansible
-      mode: 0600      
+
   - name: Deploy Pod Network to the Cluster
-    command: sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-  - name: Verify that everything is running
-    command: kubectl get pods --all-namespaces  
+    become: yes
+    become_user: ansible
+    shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_network_setup.txt
+    args:
+       chdir: $HOME
+       creates: pod_network_setup.txt

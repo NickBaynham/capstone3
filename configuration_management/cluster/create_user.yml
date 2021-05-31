@@ -1,32 +1,41 @@
 ---
-- hosts: users
+- hosts: all
+  remote_user: ubuntu
   become: yes
-
+  become_method: sudo
+  gather_facts: no
+  connection: ssh
   tasks: 
-  - name: create the k8s user.
+  - name: create the docker group
+    group:
+      name: docker
+      state: present
+
+  - name: create the ansible user
     user: 
-      name: k8s
+      name: ansible
+      comment: configuration management user
       createhome: yes
+      group: docker
       shell: /bin/bash
       append: yes
       state: present
   - name: create the dedicated sudo entry
-    file:
-      path: "/etc/sudoers.d/k8s"
-      state: touch
-      mode: '0600'
-  - name: configure sudo without password
-    lineinfile:
-      dest: "/etc/sudoers.d/k8s"
-      line: 'k8s ALL=(ALL) NOPASSWD:ALL'
-      validate: 'visudo -cf %s'
+    copy:
+      dest: "/etc/sudoers.d/ansible"
+      content: "ansible ALL=(ALL) NOPASSWD: ALL"
   - name: set authorized key
     authorized_key:
-      user: k8s
+      user: ansible
       state: present
       key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"
   - name: log the created user
-    shell: id k8s
+    shell: id ansible
     register: new_user_created
   - debug:
       msg: "{{ new_user_created.stdout_lines[0] }}"
+  handlers:
+  - name: restart ssh
+    service:
+      name: sshd
+      state: restarted      
