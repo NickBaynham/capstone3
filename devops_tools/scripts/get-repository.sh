@@ -8,7 +8,8 @@ fi
 USER=$1
 EMAIL=$2
 
-apt-get install -y tree
+sudo apt-get update
+sudo apt-get install -y tree
 
 git --version
 git config --global user.email "$EMAIL"
