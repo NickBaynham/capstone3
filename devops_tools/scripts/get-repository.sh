@@ -11,6 +11,8 @@ EMAIL=$2
 sudo apt-get update
 sudo apt-get install -y tree
 
+ssh-keygen -q -t rsa -N '' <<< ""$'\n'"y" 2>&1 >/dev/null
+
 git --version
 git config --global user.email "$EMAIL"
 git config --global user.name "$USER"
