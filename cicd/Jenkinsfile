@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    
+    environment {
+        NAME = "public.ecr.aws/r2t7l4m6/capstone3"
+        VERSION = "${env.BUILD_ID)-${env.GIT_COMMIT}"
+        IMAGE = "${NAME}:${VERSION}"
+    }
 
     stages {
         stage('Checkout Repository - main branch') {
@@ -25,10 +31,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying the microservices to the cluster...'
-                sh 'cd application && docker build . -t public.ecr.aws/r2t71rm6/capstone3'
+                sh 'cd application && docker build . -t $IMAGE'
                 sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws'
-                sh 'docker push public.ecr.aws/r2t7l4m6/capstone3'
-                sh 'cd scripts && ssh ansible@$(./get_node_ip.sh master-node) < ./deployment.sh'
+                sh 'docker push $IMAGE'
+                sh 'cd scripts && ssh ansible@$(./get_node_ip.sh master-node) < ./deployment.sh $IMAGE'
             }
         }
     }
