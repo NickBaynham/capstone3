@@ -9,13 +9,16 @@
   tasks:
   - name: Update apt-get repo and cache
     apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    
   - name: Deactivate Swap
     command: swapoff -a
+    
   - name: Remove swap entry from /etc/fstab
     lineinfile:
       dest: /etc/fstab
       regexp: swap
       state: absent
+      
   - name: Install the K8s prerequisites
     apt:
       name:
@@ -27,37 +30,45 @@
       - vim
       - software-properties-common
       state: present
+      
   - name: Add Docker official GPG Key
     apt_key:
       url: https://download.docker.com/linux/ubuntu/gpg
       state: present
+      
   - name: Add Docker Repository
     apt_repository:
       repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
       state: present
       filename: docker
       mode: 0600      
+      
   - name: Install Docker Engine
     apt:
       name:
       - docker-ce
       - docker-ce-cli
       - containerd.io
-      state: present        
+      state: present   
+      
   - name: Enable docker service and persist
     service:
       name: docker
       enabled: yes
+      
   - name: Add the ansible user to the docker group
     command: "usermod -aG docker ansible"
+    
   - name: Add Google official GPG key
     apt_key:
       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
       state: present
+      
   - name: Add Kubernetes Repository
     apt_repository:
       repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
       state: present
+      
   - name: Install K8s Cluster Packages
     apt:
       name:
@@ -65,6 +76,7 @@
       - kubectl
       - kubelet
       state: present
+      
   - name: Enable kubelet service and persist
     service:
       name: kubelet

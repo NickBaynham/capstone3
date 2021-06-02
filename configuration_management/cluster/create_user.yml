@@ -20,20 +20,25 @@
       shell: /bin/bash
       append: yes
       state: present
+      
   - name: create the dedicated sudo entry
     copy:
       dest: "/etc/sudoers.d/ansible"
       content: "ansible ALL=(ALL) NOPASSWD: ALL"
+      
   - name: set authorized key
     authorized_key:
       user: ansible
       state: present
       key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"
+      
   - name: log the created user
     shell: id ansible
     register: new_user_created
+    
   - debug:
       msg: "{{ new_user_created.stdout_lines[0] }}"
+  
   handlers:
   - name: restart ssh
     service:
