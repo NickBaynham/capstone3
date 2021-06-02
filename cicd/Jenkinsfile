@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         NAME = "public.ecr.aws/r2t7l4m6/capstone3"
-        VERSION = "${env.BUILD_ID)-${env.GIT_COMMIT}"
+        VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
         IMAGE = "${NAME}:${VERSION}"
     }
 
