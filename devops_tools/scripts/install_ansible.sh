@@ -11,6 +11,8 @@ pip3 install boto3
 # Install Ansible AWS EC2 Inventory Source
 ansible-galaxy collection install amazon.aws
 
-#cp /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.bak
-#cp ~/capstone3/devops_tools/config/ansible.cfg /etc/ansible/ansible.cfg
+# if you are using ansible 2.9 use this method:
+cp /etc/ansible/ansible.cfg /etc/ansible/ansible.cfg.bak
+cp ~/capstone3/devops_tools/config/ansible.cfg /etc/ansible/ansible.cfg
+
 ansible --version
