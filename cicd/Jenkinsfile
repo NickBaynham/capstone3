@@ -34,7 +34,7 @@ pipeline {
                 sh 'cd application && docker build . -t $IMAGE'
                 sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws'
                 sh 'docker push $IMAGE'
-                sh 'cd scripts && ssh ansible@$(./get_node_ip.sh master-node) < kubectl set image deployment microservice microservice=$IMAGE'
+                sh 'cd scripts && ssh ansible@$(./get_node_ip.sh master-node) "kubectl set image deployment microservice microservice=$IMAGE"'
             }
         }
     }
